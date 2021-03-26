@@ -6,4 +6,31 @@ Course
 
 {% block content %}
 <h1>Hello World</h1>
+<input type="file" id='upload' name="fileName" data-schema-key="fileName">
+<!-- <button onclick="f()"></button> -->
+<script>
+    var firebaseConfig = {
+        apiKey: "AIzaSyDpL_jangAHa-fNG7_UOzaKSBQyH2lOpOM",
+        authDomain: "coursecompanion.firebaseapp.com",
+        databaseURL:"https://coursecompanion/firebaseio.com",
+        projectId: "coursecompanion",
+        storageBucket: "coursecompanion.appspot.com",
+        messagingSenderId: "502681390731",
+        appId: "1:502681390731:web:bcbf9a4154d76a36c34e8e",
+        measurementId: "G-BP0GSF1CL1"
+    };
+    firebase.initializeApp(firebaseConfig);
+
+    var storage = firebase.storage();
+
+    var file = document.getElementById("upload")
+
+    file.addEventListener('change',(e)=>{
+        var file = e.target.files[0]
+        var storageRef = firebase.storage().ref('folder/' + file.name)
+        storageRef.put(file);
+
+    })
+    
+</script>
 {% endblock content %}

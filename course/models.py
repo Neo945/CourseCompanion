@@ -12,5 +12,5 @@ class Course(models.Model):
 
 class Video(models.Model):
     name = models.CharField(null=False,max_length=255)
-    # video = models.FileField(upload_to='/')
+    video = models.CharField(null=False,max_length=255)
     course = models.ForeignKey(Course,on_delete=models.CASCADE)

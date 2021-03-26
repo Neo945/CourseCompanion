@@ -1,5 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 from .models import Course,Video
+from rest_framework import serializers
 
 class CourseCreateModelSerializer(ModelSerializer):
     class Meta:
@@ -14,9 +15,9 @@ class CourseModelSerializer(ModelSerializer):
 class VideoModelSerializer(ModelSerializer):
     class Meta:
         model = Video
-        fields = ['id','name','course']
+        fields = ['id','name','course','video']
 
 class VideoCreateModelSerializer(ModelSerializer):
     class Meta:
         model = Video
-        fields = ['id','name']
+        fields = ['id','name','video']

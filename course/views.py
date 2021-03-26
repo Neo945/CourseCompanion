@@ -1,13 +1,19 @@
 from course.models import Course,Video
-from course.serializers import CourseModelSerializer, VideoModelSerializer,CourseCreateModelSerializer,VideoCreateModelSerializer
+from course.serializers import (
+    CourseModelSerializer, 
+    VideoModelSerializer,
+    CourseCreateModelSerializer,
+    VideoCreateModelSerializer
+    )
 from django.shortcuts import render
 from rest_framework.decorators import api_view,permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from .firebases import firebase_download,firebase_upload
 
 # Create your views here.
 def home_page(request):
-    return render(request,'Pages/home_page.html',{})
+    return render(request,'Pages/form.html',{})
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
@@ -76,11 +82,11 @@ def create_course(request):
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_video_course(request,course_id):
-    print(course_id)
     u = request.user
     data = VideoCreateModelSerializer(data=request.data or None)
     if data.is_valid():
         qs = Course.objects.filter(pk=course_id)
+        print(qs)
         if qs.exists():
             data.save(course=qs.first())
             print(data.data)
