@@ -27,3 +27,6 @@ def logout_view(request):
         logout(request)
         redirect('/login')
     return render(request,'accounts/auth.html',{"form":None,"button":"Logout"})
+
+def home_page(request):
+    return render(request, 'accounts/home_page.html', {})
