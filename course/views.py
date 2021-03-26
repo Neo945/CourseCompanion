@@ -23,3 +23,13 @@ def video_list(request):
     qs = Video.objects.all()
     serial = VideoModelSerializer(qs,many=True)
     return Response(serial.data,status=200)
+
+@api_view(['POST'])
+@authentication_classes([IsAuthenticated])
+def create_course(request):
+    data = request.data or None
+    serializer = CourseModelSerializer(data=data)
+    if serializer.is_valid():
+        obj = serializer.save(user=request.user)
+        return Response(serializer.data,status=201)
+    return Response({},status=400)
