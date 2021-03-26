@@ -15,17 +15,16 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+from corsheaders.defaults import default_headers 
+CORS_ALLOW_HEADERS = default_headers + ( 'HTTP_X_REQUESTED_WITH','X-CSRFToken','X-Requested-With', )
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'p_te_n_-by$)omp&!m7vsf%-49r+#865i9u-9xg54i3ved@68n'
+with open(BASE_DIR /'coursecompanion\etc\secret_key.txt') as f:
+    SECRET_KEY = f.read().strip()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,11 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -54,7 +56,7 @@ ROOT_URLCONF = 'coursecompanion.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -114,7 +116,27 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/.*$'
+
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    BASE_DIR / 'assets'
+]
+
+DEFAULT_RENDERER_CLASSES = [
+        'rest_framework.renderers.JSONRenderer',
+    ]
+DEFAULT_AUTHENTICATION_CLASSES= [
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+if DEBUG:
+    DEFAULT_RENDERER_CLASSES += [
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': DEFAULT_AUTHENTICATION_CLASSES,
+    'DEFAULT_RENDERER_CLASSES': DEFAULT_RENDERER_CLASSES,
+}
