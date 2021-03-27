@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form method="POST">
+<form method="POST" class="form">
     {% csrf_token %}
     {{ form.as_p }}
     <button type="submit" class="btn btn-secondary" >{{ button }}</button>
 </form>
+<style>
+
+    .helptext{
+      visibility: hidden;
+    }
+    .form ul{
+      display:none;
+    }
+</style>
 {% endblock content %}

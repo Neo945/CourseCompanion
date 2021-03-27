@@ -11,6 +11,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <style>
+                            
+        .form label{
+            display:none;
+        }
+        .form2 label{
+            display:none;
+        }
+        .helptext{
+          display:none;
+        }
+        .form ul{
+          display:none;
+        }.form2 ul{
+          display:none;
+        }
+    </style>
 {% endblock stylesheets %}
 
 {% block content %}
@@ -36,8 +53,19 @@
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
                     <h3 class="register-heading">Apply as Admin</h3>
+                    
                     <div class="row register-form">
-                        <div class="col-md-6">
+                        <form method="POST" class="form col-md-6">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="hidden" name="proff" value="True">
+                            <div class="col-md-12">
+                                <input type="submit" class="btnRegister1" value="{{ button }}" />
+                            </div>
+                            <!-- <button type="submit" class="btn btn-secondary" >{{ button }}</button> -->
+                        </form>
+                        
+                        <!-- <div class="col-md-6">
                             <div class="form-group">
                                 <input type="text" class="form-control" placeholder="Username" value="" />
                             </div>
@@ -47,30 +75,21 @@
                             <div class="form-group">
                                 <input type="password" class="form-control" placeholder="Confirm Password" value="" />
                             </div>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="submit" class="btnRegister1" value="Register" />
-                        </div>
+                        </div> -->
+                        
                     </div>
                 </div>
                 <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <h3 class="register-heading">Apply as Student</h3>
                     <div class="row register-form">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="text" class="form-control" placeholder="Username" value="" />
+                        <form method="POST" class="form2 col-md-6">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="hidden" name="proff" value="False">
+                            <div class="col-md-12">
+                                <input type="submit" class="btnRegister1" value="{{ button }}" />
                             </div>
-
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Password" value="" />
-                            </div>
-                            <div class="form-group">
-                                <input type="password" class="form-control" placeholder="Confirm Password" value="" />
-                            </div>
-                        </div>
-                        <div class="col-md-8">
-                            <input type="submit" class="btnRegister2" value="Register" />
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -81,5 +100,22 @@
     document.getElementById("b1").onclick = function () {
         location.href = "login";
     };
+    document.getElementById("id_username").placeholder = "Username"
+    document.getElementById("id_password1").placeholder = "Password"
+    document.getElementById("id_password2").placeholder = "Confirm Password"
+    270.650 * 38
+    document.getElementById("id_username").classList.add("form-control");;
+    document.getElementById("id_password1").classList.add("form-control");
+    document.getElementById("id_password2").classList.add("form-control");
+
+
+    document.querySelector(".form2 #id_username").placeholder = "Username"
+    document.querySelector(".form2 #id_password1").placeholder = "Password"
+    document.querySelector(".form2 #id_password2").placeholder = "Confirm Password"
+
+
+    document.querySelector(".form2 #id_username").classList.add("form-control");
+    document.querySelector(".form2 #id_password1").classList.add("form-control");
+    document.querySelector(".form2 #id_password2").classList.add("form-control");
 </script>
 {% endblock content %}

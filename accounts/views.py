@@ -24,18 +24,12 @@ def create_profile(request):
 def reg_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
-        # user_ = form.get_user()
-        # login(request,user_)
-        # print(form.cleaned_data)
         u = form.save(commit=True)
-        data = Profile(user=u,proff=bool(request.POST.get('proff')))
+        k = False if request.POST.get('proff')=='False' else True
+        data = Profile(user=u,proff=k)
         data.save()
-        # return redirect('/login')
-    return render(request,'accounts/auth.html',{"form":form,"button":"Register"})
-    
-    # The below return statement is just for verifying that the page works 
-    # (View part Integration with the backend is still remaining)
-    return render(request,'accounts/register.html', {})
+        return redirect('/user/login')
+    return render(request,'accounts/register.html', {"form":form,"button":"Register"})
 
 def logout_view(request):
     if request.method == 'POST':
