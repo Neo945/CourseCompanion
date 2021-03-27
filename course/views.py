@@ -41,7 +41,8 @@ def video_list(request):
     serial = VideoModelSerializer(qs,many=True)
     return Response(serial.data,status=200)
 
-
+def pages(request):
+    return render(request,"Pages/home_page.html",{})
 
 
 @api_view(['GET'])
