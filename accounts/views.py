@@ -44,3 +44,6 @@ def home_page(request):
 
 def dashboard(request):
     return render(request, 'accounts/dashboard.html',{'name':''})
+
+def courses(request):
+    return render(request, 'accounts/courses.html')
