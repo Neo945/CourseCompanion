@@ -21,6 +21,6 @@ def firebase_upload(path_on_cloud,path_local):
 def firebase_download(path_on_cloud):
     firebase = pyrebase.initialize_app(config=config)
     storage = firebase.storage()
-    k = storage.child("Django/Admin.mp4").get_url(None)
+    k = storage.child(path_on_cloud).get_url(None)
     return k
 # storage.child(path_on_cloud).download(download_file)
