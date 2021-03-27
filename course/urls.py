@@ -9,7 +9,8 @@ from .views import (
     course_details,
     video_details,
     delete_video,
-    delete_course
+    delete_course,
+    form_page
     )
 
 app_name = 'course'
@@ -23,5 +24,6 @@ urlpatterns = [
     path('video/<int:video_id>',video_details),
     path('delete/course/<int:course_id>',delete_course),
     path('delete/video/<video_id>',delete_video),
-    path('', home_page),
+    path('course/<int:course_id>/video/form', form_page),
+    path('',home_page)
 ]

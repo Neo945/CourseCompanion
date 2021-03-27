@@ -12,8 +12,19 @@ from rest_framework.response import Response
 from .firebases import firebase_download,firebase_upload
 
 # Create your views here.
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def form_page(request,course_id):
+    qs = Course.objects.filter(pk=course_id)
+    if qs.exists():
+        if qs.first().user == request.user:
+            serial = CourseModelSerializer(qs.first())
+            return render(request,'Pages/form.html',{"course":serial.data})
+        return render(request=request,status=403)
+    return render(request=request,status=404)
+
 def home_page(request):
-    return render(request,'Pages/form.html',{})
+    return render(request,'Pages/video_list.html',{})
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
@@ -63,6 +74,9 @@ def video_details(request,video_id):
         serial = VideoModelSerializer(qs.first())
         data = serial.data
         data['course'] = CourseModelSerializer(Course.objects.filter(pk=data['course']).first()).data['name']
+        k = data['course'] + '/' + data['video']
+        data['video'] = firebase_download(k)
+        print(data['video'])
         return Response(data,status=200)
     return Response({"message":"course do not exist"},status=404)
 

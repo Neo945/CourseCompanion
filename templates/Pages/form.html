@@ -5,10 +5,11 @@ Course
 {% endblock title %}
 
 {% block content %}
-<input type="file" id='upload' name="fileName" data-schema-key="fileName">
 
 <form method="POST" id='form'>
     {% csrf_token %}
+    <input type="hidden" value="{{ course.id }}" id="id">
+    <input type="hidden" value="{{ course.name }}" id="courseName">
     <input type="text" name="name" id='name'>
     <input type="file" id="upload">
     <button type="submit">Save</button>
@@ -58,7 +59,8 @@ Course
         const name = document.getElementById('name').value
         const xhr = new XMLHttpRequest()
         xhr.responseType = 'json'
-        xhr.open('POST','create/course/3/video')
+        const id = document.getElementById("id")
+        xhr.open('POST',`http://127.0.0.1:8000/api/create/course/${id.value}/video`)
         xhr.setRequestHeader('Content-Type','application/json')
         xhr.setRequestHeader("HTTP_X_REQUESTED_WITH","XMLHttpRequest")
         xhr.setRequestHeader("X-Requested-With","XMLHttpRequest")
@@ -68,15 +70,15 @@ Course
             if (xhr.status===201){
                 const name1 = document.getElementById('name').value
                 const ele = document.getElementById('upload')
-                firebaseUpload(ele,"Django",name1)
+                const course = document.getElementById("courseName")
+                firebaseUpload(ele,course.value,name1)
             }
         }
         data = {
             name: name,
             video: name + ".mp4"
         }
-        var val = JSON.stringify(data)
-        console.log(val)
+        const val = JSON.stringify(data)
         xhr.send(val)
     })
     
