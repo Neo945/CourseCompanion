@@ -10,7 +10,11 @@ def login_view(request):
         user_ = form.get_user()
         login(request,user_)
         return redirect('/')
-    return render(request,'accounts/auth.html',{"form":form,"button":"Login"})
+    # return render(request,'accounts/auth.html',{"form":form,"button":"Login"})
+    
+    # The below return statement is just for verifying that the page works 
+    # (View part Integration with the backend is still remaining)
+    return render(request,'accounts/login.html', {})
 
 def reg_view(request):
     form = UserCreationForm(request.POST or None)
@@ -20,7 +24,11 @@ def reg_view(request):
         print(form.cleaned_data)
         u = form.save(commit=True)
         # return redirect('/login')
-    return render(request,'accounts/auth.html',{"form":form,"button":"Register"})
+    # return render(request,'accounts/auth.html',{"form":form,"button":"Register"})
+    
+    # The below return statement is just for verifying that the page works 
+    # (View part Integration with the backend is still remaining)
+    return render(request,'accounts/register.html', {})
 
 def logout_view(request):
     if request.method == 'POST':
