@@ -16,7 +16,7 @@
     
     <style>
       .abc {
-        padding-top: 40px;
+        /* padding-top: 40px; */
         padding-left: 50px;
         color: #ffffff;
         font-weight: bolder;
@@ -29,11 +29,48 @@
         color: #ffffff;
         font-weight: bolder;
         font-size: 25px;
+        align-self: flex-start;
       }
-    
-      .abc2 {
-        padding-top: 20px;
-        padding-left: 100px;
+
+      .videoContainer{
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        align-items: center;
+        /* align-content: flex-start; */
+        width: inherit;
+        margin-top: 6%;
+      }
+      .videoContainer label{
+        align-self: flex-start;
+      }
+      .videoContainer .video{
+        align-self: center;
+        /* align-content: center; */
+        margin-top: 5%;
+        width: inherit;
+      }
+
+      .video-list{
+        display: flex;
+        flex-flow: column wrap;
+        text-align: center;
+      }
+      .list{
+        list-style-type: none;
+        text-decoration: none;
+        padding: 0;
+        margin: 0;
+      }
+      .video-list .video-name{
+        padding: 6% 0 6% 0;
+      }
+      .video-name span{
+        margin-right: 3%;
+      }
+      .active-list-item{
+        border-radius: 25px;
+        background-color: rgba(211, 195, 195, 0.5);
       }
       
       .abc3 {
@@ -85,7 +122,30 @@
 
           <hr class="my-3">
 
-
+          <div class="video-list" id="video-list">
+            <ul class="list" >
+              <li class="video-name active-list-item">
+                <a href="" class="video-link">
+                  <span><i class="fa fa-file-video-o" aria-hidden="true"></i></span>
+                  Video1
+                </a>
+              </li>
+              <li class="video-name">
+                <a href="" class="video-link">
+                  <span><i class="fa fa-file-video-o" aria-hidden="true"></i></span>
+                  Video2
+                </a>
+              </li>
+              <li class="video-name">
+                <a href="" class="video-link">
+                  <span><i class="fa fa-file-video-o" aria-hidden="true"></i></span>
+                  Video3
+                </a>
+              </li>
+            </ul>
+          </div>
+          
+          <hr class="my-3">
 
         </div>
       </div>
@@ -116,8 +176,13 @@
                 <i class="ni ni-zoom-split-in"></i>
               </a>
             </li>
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> 1ea0af951a2c3f627ea23428daecf767db9b07bb
             <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
               <li class="nav-item dropdown">
                 <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -127,7 +192,11 @@
                       <img alt="Image placeholder" src="{% static 'img/team-4.jpg' %}">
                     </span>
                     <div class="media-body  ml-2  d-none d-lg-block">
+<<<<<<< HEAD
                       <span class="mb-0 text-sm  font-weight-bold abc3">{{ user }}</span>
+=======
+                      <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+>>>>>>> 1ea0af951a2c3f627ea23428daecf767db9b07bb
                     </div>
                   </div>
                 </a>
@@ -158,9 +227,17 @@
         </div>
       </div>
     </nav>
+<<<<<<< HEAD
     <label class="abc" id='course'>Course Name</label><br>
     <label class="abc1" id='name'>Video Name</label><br>
     <video class="abc2" height="350" width="700" id="video" controls></video>
+=======
+    <div class="videoContainer">
+      <label class="abc">Course Name</label>
+      <label class="abc1">Video Name</label>
+      <video class="video" height="350" width="700" controls></video>
+    </div>
+>>>>>>> 1ea0af951a2c3f627ea23428daecf767db9b07bb
   </div>
 
   <!-- Argon Scripts -->
