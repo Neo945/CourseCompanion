@@ -9,6 +9,7 @@ urlpatterns = [
     path('logout', logout_view),
     path('register', reg_view),
     path('', home_page),
+    path('dashboard', dashboard),
 ]
 
 if settings.DEBUG:
