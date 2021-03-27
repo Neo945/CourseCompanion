@@ -79,7 +79,7 @@ body
     text-align: left;
 
     color: #37517e;
-    background-color: #37517e;
+    background-color: #5e72e4;
 }
 
 [tabindex='-1']:focus:not(:focus-visible)
