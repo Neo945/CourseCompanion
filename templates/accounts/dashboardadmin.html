@@ -104,24 +104,20 @@
                     <h6 class="text-overflow m-0">Welcome!</h6>
                   </div>
                   <a href="#!" class="dropdown-item">
-                    <i class="ni ni-single-02"></i>
+                    <i class="fa fa-user" aria-hidden="true"></i>
                     <span>My profile</span>
                   </a>
                   <a href="#!" class="dropdown-item">
-                    <i class="ni ni-settings-gear-65"></i>
+                    <i class="fa fa-cog" aria-hidden="true"></i>
                     <span>Settings</span>
                   </a>
                   <a href="#!" class="dropdown-item">
-                    <i class="ni ni-calendar-grid-58"></i>
+                    <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
                     <span>Activity</span>
                   </a>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ni ni-support-16"></i>
-                    <span>Support</span>
-                  </a>
                   <div class="dropdown-divider"></div>
-                  <a href="#!" class="dropdown-item">
-                    <i class="ni ni-user-run"></i>
+                  <a href="/user/logout" class="dropdown-item">
+                    <i class="fa fa-sign-out" aria-hidden="true"></i>
                     <span>Logout</span>
                   </a>
                 </div>
@@ -218,11 +214,10 @@
                     <tr>
                       <th scope="row">
                         <div class="media align-items-center">
-
                           <div class="media-body">
 
-
-
+                          </div>
+                        </div>
                   </tbody>
                 </table>
               </div>
@@ -244,14 +239,14 @@
           cel2.innerHTML = p;
         }
       </script>
-      <script src="assets/vendor/jquery/dist/jquery.min.js"></script>
-      <script src="assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-      <script src="assets/vendor/js-cookie/js.cookie.js"></script>
-      <script src="assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
-      <script src="assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+      <script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
+      <script src="{% static 'vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'vendor/js-cookie/js.cookie.js' %}"></script>
+      <script src="{% static 'vendor/jquery.scrollbar/jquery.scrollbar.min.js' %}"></script>
+      <script src="{% static 'vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js' %}"></script>
       <!-- Optional JS -->
-      <script src="assets/vendor/chart.js/dist/Chart.min.js"></script>
-      <script src="assets/vendor/chart.js/dist/Chart.extension.js"></script>
+      <script src="{% static 'vendor/chart.js/dist/Chart.min.js' %}"></script>
+      <script src="{% static 'vendor/chart.js/dist/Chart.extension.js' %}"></script>
       <!-- Argon JS -->
       <script src="{% static 'js/argon.js' %}"></script>
 {% endblock content%}
