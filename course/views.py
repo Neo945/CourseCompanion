@@ -1,3 +1,4 @@
+from accounts.models import Profile
 from course.models import Course, Reference,Video
 from course.serializers import (
     CourseModelSerializer, RefernceSerializer, 
@@ -17,7 +18,7 @@ from .firebases import firebase_download,firebase_upload,firebase_delete
 def form_page(request,course_id):
     qs = Course.objects.filter(pk=course_id)
     if qs.exists():
-        if qs.first().user == request.user:
+        if qs.first().user.user == request.user:
             serial = CourseModelSerializer(qs.first())
             return render(request,'Pages/form.html',{"course":serial.data})
         return render(request=request,status=403)
@@ -29,7 +30,7 @@ def form_page(request,course_id):
 def Course_video_details(request,course_id):
     qs = Course.objects.filter(pk=course_id)
     if qs.exists():
-        if qs.first().user == request.user:
+        if qs.first().user.user == request.user:
             serial = CourseModelSerializer(qs.first())
             return render(request,'Pages/video_list.html',{"course":serial.data})
         return render(request=request,status=403)
@@ -105,21 +106,22 @@ def create_course(request):
     u = request.user
     data = CourseCreateModelSerializer(data=request.data or None)
     if data.is_valid():
-        data.save(user=u)
-        print(data.data)
-        return Response(data.data,status=201)
+        if Profile.objects.filter(user=u).first().proff:
+            data.save(user=Profile.objects.filter(user=u).first())
+            print(data.data)
+            return Response(data.data,status=201)
+        return Response({},status=403)
     return Response({},status=400)
 
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_video_course(request,course_id):
-    u = request.user
     data = VideoCreateModelSerializer(data=request.data or None)
     if data.is_valid():
         qs = Course.objects.filter(pk=course_id)
         print(qs)
-        if qs.exists():
+        if qs.exists() and qs.first().user.proff:
             data.save(course=qs.first())
             print(data.data)
             return Response(data.data,status=201)
@@ -133,7 +135,7 @@ def delete_video(request,video_id):
     qs = Video.objects.filter(pk=video_id)
     if qs.exists():
         qs = qs.first()
-        if Course.objects.filter(pk=qs.course.id).first().user == request.user:
+        if Course.objects.filter(pk=qs.course.id).first().user.user == request.user and Course.objects.filter(pk=qs.course.id).first().user.proff:
             firebase_delete(qs.video)
             qs.delete()
             return Response({'message':'success'},status=201)
@@ -147,7 +149,7 @@ def delete_course(request,course_id):
     qs = Course.objects.filter(pk=course_id)
     if qs.exists():
         qs = qs.first()
-        if qs.user == request.user:
+        if qs.user.user == request.user and qs.user.proff:
             # firebase_delete(qs.name)
             v = Video.objects.filter(course=qs.id)
             for i in VideoModelSerializer(v,many=True).data:
@@ -184,7 +186,7 @@ def create_video_ref(request,course_id,video_id):
         qs = Video.objects.filter(pk=video_id)
         print(qs)
         if qs.exists():
-            if Course.objects.filter(pk=course_id).first().user == u:
+            if Course.objects.filter(pk=course_id).first().user.user == u and Course.objects.filter(pk=course_id).first().user.proff:
                 data.save(video=qs.first())
                 print(data.data)
                 return Response(data.data,status=201)
@@ -208,10 +210,18 @@ def delete_video_ref(request,course_id,video_id):
     qs = Reference.objects.filter(pk=course_id)
     if qs.exists():
         qs = qs.first()
-        if Course.objects.filter(pk=course_id).first().user == request.user:
+        if Course.objects.filter(pk=course_id).first().user.user == request.user and Course.objects.filter(pk=course_id).first().user.proff:
             firebase_delete(qs.file)
             qs.delete()
             return Response({'message':'success'},status=201)
         return Response({},status=403)
     return Response({},status=404)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def proff_course(request):
+    prof = Profile.objects.filter(user=request.user).first()
+    c = Course.objects.filter(user=prof)
+    serial = CourseModelSerializer(c,many=True)
+    return Response(serial.data,status=200)

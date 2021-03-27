@@ -1,3 +1,4 @@
+from accounts.models import Profile
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
@@ -23,8 +24,10 @@ def reg_view(request):
         # login(request,user_)
         print(form.cleaned_data)
         u = form.save(commit=True)
+        data = Profile(user=u,proff=True)
+        data.save()
         # return redirect('/login')
-    # return render(request,'accounts/auth.html',{"form":form,"button":"Register"})
+    return render(request,'accounts/auth.html',{"form":form,"button":"Register"})
     
     # The below return statement is just for verifying that the page works 
     # (View part Integration with the backend is still remaining)

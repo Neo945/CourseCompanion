@@ -1,6 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.db import models
 from django.conf import settings
+from accounts.models import Profile
 
 User = settings.AUTH_USER_MODEL
 
@@ -8,7 +9,7 @@ User = settings.AUTH_USER_MODEL
 class Course(models.Model):
     name = models.CharField(null=False,max_length=255)
     timestamp = models.DateTimeField(auto_now_add=True)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile,on_delete=models.CASCADE)
     # playlist = models.
 
 def valid(value):
