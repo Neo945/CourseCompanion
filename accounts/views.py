@@ -15,11 +15,8 @@ def login_view(request):
     
     # The below return statement is just for verifying that the page works 
     # (View part Integration with the backend is still remaining)
-    return render(request,'accounts/login.html', {})
+    return render(request,'accounts/login.html', {"form":form,"button":"Login"})
 
-def create_profile(request):
-    profile = Profile(request.POST or None)
-    profile.save(commit=True)
 
 def reg_view(request):
     form = UserCreationForm(request.POST or None)
