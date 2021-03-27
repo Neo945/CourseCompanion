@@ -4,7 +4,8 @@ from course.serializers import (
     CourseModelSerializer, RefernceSerializer, 
     VideoModelSerializer,
     CourseCreateModelSerializer,
-    VideoCreateModelSerializer
+    VideoCreateModelSerializer,
+    RefernceCreateSerializer
     )
 from django.shortcuts import render
 from rest_framework.decorators import api_view,permission_classes
@@ -92,9 +93,9 @@ def video_details(request,video_id):
     if qs.exists():
         serial = VideoModelSerializer(qs.first())
         data = serial.data
-        data['course'] = data['file'].split('/')[0] #CourseModelSerializer(Course.objects.filter(pk=data['course']).first()).data['name']
+        data['course'] = data['video'].split('/')[0] #CourseModelSerializer(Course.objects.filter(pk=data['course']).first()).data['name']
         # k = data['course'] + '/' + data['video']
-        data['video'] = firebase_download(data['file'])
+        data['video'] = firebase_download(data['video'])
         print(data['video'])
         return Response(data,status=200)
     return Response({"message":"course do not exist"},status=404)
@@ -153,26 +154,19 @@ def delete_course(request,course_id):
             # firebase_delete(qs.name)
             v = Video.objects.filter(course=qs.id)
             for i in VideoModelSerializer(v,many=True).data:
-                firebase_delete(i.video)
+                firebase_delete(i['video'])
             qs.delete()
             return Response({'message':'success'},status=201)
         return Response({},status=403)
     return Response({},status=404)
 
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def video_ref(request,video_id):
-    qs = Reference.objects.filter(video=video_id)
-    if qs.exists():
-        serial = RefernceSerializer(qs,many=True)
-        return Response(serial.data,status=200)
-    return Response({},status=404)
+
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def all_ref(request,video_id):
+def all_ref(request):
     qs = Reference.objects.all()
     serial = RefernceSerializer(qs,many=True)
     return Response(serial.data,status=200)
@@ -181,7 +175,7 @@ def all_ref(request,video_id):
 @permission_classes([IsAuthenticated])
 def create_video_ref(request,course_id,video_id):
     u = request.user
-    data = RefernceSerializer(data=request.data or None)
+    data = RefernceCreateSerializer(data=request.data or None)
     if data.is_valid():
         qs = Video.objects.filter(pk=video_id)
         print(qs)
@@ -197,17 +191,26 @@ def create_video_ref(request,course_id,video_id):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def all_ref(request,video_id):
+def all_ref_vid(request,video_id):
     qs = Reference.objects.filter(video=video_id)
     serial = RefernceSerializer(qs,many=True)
     for i in serial.data:
         i['file'] = firebase_download(i['file'])
     return Response(serial.data,status=200)
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def video_ref(request,video_id):
+    qs = Reference.objects.filter(video=video_id)
+    if qs.exists():
+        serial = RefernceSerializer(qs,many=True)
+        return Response(serial.data,status=200)
+    return Response({},status=404)
+
 @api_view(['POST','GET','DELETE'])
 @permission_classes([IsAuthenticated])
-def delete_video_ref(request,course_id,video_id):
-    qs = Reference.objects.filter(pk=course_id)
+def delete_video_ref(request,course_id,video_id,ref_id):
+    qs = Reference.objects.filter(pk=ref_id)
     if qs.exists():
         qs = qs.first()
         if Course.objects.filter(pk=course_id).first().user.user == request.user and Course.objects.filter(pk=course_id).first().user.proff:

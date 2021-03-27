@@ -25,7 +25,13 @@ class VideoCreateModelSerializer(ModelSerializer):
         fields = ['id','name','video']
 
 
+class RefernceCreateSerializer(ModelSerializer):
+    class Meta:
+        model = Reference
+        fields = ['name','file','type_of']
+
+
 class RefernceSerializer(ModelSerializer):
     class Meta:
         model = Reference
-        fields = ['name','file','type_of','video']
+        fields = ['id','video','name','file','type_of']
