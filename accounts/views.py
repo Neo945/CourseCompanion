@@ -17,14 +17,18 @@ def login_view(request):
     # (View part Integration with the backend is still remaining)
     return render(request,'accounts/login.html', {})
 
+def create_profile(request):
+    profile = Profile(request.POST or None)
+    profile.save(commit=True)
+
 def reg_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
         # user_ = form.get_user()
         # login(request,user_)
-        print(form.cleaned_data)
+        # print(form.cleaned_data)
         u = form.save(commit=True)
-        data = Profile(user=u,proff=True)
+        data = Profile(user=u,proff=bool(request.POST.get('proff')))
         data.save()
         # return redirect('/login')
     return render(request,'accounts/auth.html',{"form":form,"button":"Register"})
