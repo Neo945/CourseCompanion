@@ -51,3 +51,6 @@ def dashboard(request):
 
 def courses(request):
     return render(request, 'accounts/courses.html')
+
+def dashboardadmin(request):
+    return render(request, 'accounts/dashboardadmin.html',{'name':''})

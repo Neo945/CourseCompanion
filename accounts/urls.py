@@ -10,6 +10,7 @@ urlpatterns = [
     path('', home_page),
     path('dashboard', dashboard),
     path('courses', courses),
+    path('dashboardadmin', dashboardadmin),
     
 ]
 
