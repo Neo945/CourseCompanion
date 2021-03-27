@@ -43,3 +43,6 @@ def courses(request):
 
 def dashboardadmin(request):
     return render(request, 'accounts/dashboardadmin.html',{'name':''})
+
+def video_view(request):
+    return render(request, 'accounts/videoviewer.html', {})
