@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
 <title>
@@ -8,7 +9,7 @@
 
 {% block stylesheets %}
     <!-- Template Main CSS File -->
-    <link href="/static/css/style.css" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
 {% endblock stylesheets%}
 
 {% block content %}
@@ -18,7 +19,7 @@
     <header id="header" class="fixed-top ">
       <div class="container d-flex align-items-center">
   
-        <h1 class="logo me-auto"><a href="/templates/accounts/homepage.html">CourseCompanion</a></h1>
+        <h1 class="logo me-auto"><a href="/user">CourseCompanion</a></h1>
         <!-- Uncomment below if you prefer to use an image logo -->
         <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
       </div>
@@ -34,14 +35,14 @@
             <h1>Your Best Course Companion</h1>
             <h2>By learning you will teach; by teaching you will learn</h2>
             <div class="d-flex justify-content-left justify-content-lg-start">
-                <a href="#about" class="btn-get-started scrollto">Login</a>
+                <a href="login" class="btn-get-started scrollto">Login</a>
             </div>
             <div class="d-flex justify-content-center justify-content-lg-start align-items-center">
-                <a href="#about" class="btn-get-started1 scrollto">Sign Up</a>
+                <a href="register" class="btn-get-started1 scrollto">Sign Up</a>
             </div>
             </div>
             <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-in" data-aos-delay="200">
-            <img src="/static/img/hero-img.png" class="img-fluid animated" alt="">
+            <img src="{% static 'img/hero-img.png' %}" class="img-fluid animated" alt="">
             </div>
         </div>
         </div>
@@ -63,6 +64,6 @@
     <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
 
     <!-- Template Main JS File -->
-    <script src="/static/js/main.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 
 {% endblock content %}

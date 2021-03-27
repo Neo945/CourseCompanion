@@ -1,6 +1,7 @@
 from django.urls import path
 from accounts.views import *
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from coursecompanion import settings
 
 app_name='accounts'
 urlpatterns = [
@@ -10,4 +11,5 @@ urlpatterns = [
     path('', home_page),
 ]
 
-urlpatterns += staticfiles_urlpatterns()
+if settings.DEBUG:
+    urlpatterns += staticfiles_urlpatterns()
