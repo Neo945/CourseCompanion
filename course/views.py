@@ -1,6 +1,6 @@
-from course.models import Course,Video
+from course.models import Course, Reference,Video
 from course.serializers import (
-    CourseModelSerializer, 
+    CourseModelSerializer, RefernceSerializer, 
     VideoModelSerializer,
     CourseCreateModelSerializer,
     VideoCreateModelSerializer
@@ -147,6 +147,61 @@ def delete_course(request,course_id):
     if qs.exists():
         qs = qs.first()
         if qs.user == request.user:
+            qs.delete()
+            return Response({'message':'success'},status=201)
+        return Response({},status=403)
+    return Response({},status=404)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def video_ref(request,video_id):
+    qs = Reference.objects.filter(video=video_id)
+    if qs.exists():
+        serial = RefernceSerializer(qs,many=True)
+        return Response(serial.data,status=200)
+    return Response({},status=404)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def all_ref(request,video_id):
+    qs = Reference.objects.all()
+    serial = RefernceSerializer(qs,many=True)
+    return Response(serial.data,status=200)
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def create_video_ref(request,course_id,video_id):
+    u = request.user
+    data = RefernceSerializer(data=request.data or None)
+    if data.is_valid():
+        qs = Video.objects.filter(pk=video_id)
+        print(qs)
+        if qs.exists():
+            if Course.objects.filter(pk=course_id).first().user == u:
+                data.save(video=qs.first())
+                print(data.data)
+                return Response(data.data,status=201)
+            return Response({},status=403)
+        return Response({"message":"course do not exist"},status=404)
+    return Response({},status=400)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def all_ref(request,video_id):
+    qs = Reference.objects.all()
+    serial = RefernceSerializer(qs,many=True)
+    return Response(serial.data,status=200)
+
+@api_view(['POST','GET','DELETE'])
+@permission_classes([IsAuthenticated])
+def delete_video_ref(request,course_id,video_id):
+    qs = Reference.objects.filter(pk=course_id)
+    if qs.exists():
+        qs = qs.first()
+        if Course.objects.filter(pk=course_id).first().user == request.user:
             qs.delete()
             return Response({'message':'success'},status=201)
         return Response({},status=403)

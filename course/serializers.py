@@ -1,5 +1,5 @@
 from rest_framework.serializers import ModelSerializer
-from .models import Course,Video
+from .models import Course, Reference,Video
 from rest_framework import serializers
 from .firebases import firebase_download
 
@@ -23,3 +23,9 @@ class VideoCreateModelSerializer(ModelSerializer):
     class Meta:
         model = Video
         fields = ['id','name','video']
+
+
+class RefernceSerializer(ModelSerializer):
+    class Meta:
+        model = Reference
+        fields = ['name','file','type_of','video']
