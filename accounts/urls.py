@@ -11,7 +11,7 @@ urlpatterns = [
     path('dashboard', dashboard),
     path('courses', courses),
     path('dashboardadmin', dashboardadmin),
-    path('videos', video_view)
+    path('videos/<int:video_id>', video_view)
     
 ]
 
