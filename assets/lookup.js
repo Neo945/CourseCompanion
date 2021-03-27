@@ -12,7 +12,7 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-function firebaseUpload(element,folder,name) {
+function firebaseUpload(element,clout_path) {
     var firebaseConfig = {
         apiKey: "AIzaSyDpL_jangAHa-fNG7_UOzaKSBQyH2lOpOM",
         authDomain: "coursecompanion.firebaseapp.com",
@@ -30,7 +30,7 @@ function firebaseUpload(element,folder,name) {
     var file = document.getElementById("upload")
 
         var file = element.files[0]
-        var storageRef = firebase.storage().ref(`${folder}/` + name + ".mp4")
+        var storageRef = firebase.storage().ref(clout_path)
         storageRef.put(file);
     }
 

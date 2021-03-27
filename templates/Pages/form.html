@@ -20,16 +20,15 @@ Course
         const name = document.getElementById('name').value
         data = {
             name: name,
-            video: name + ".mp4"
+            video: document.getElementById('courseName').value + '/' + name + ".mp4"
         }
         const id = document.getElementById('id')
         lookup(`http://127.0.0.1:8000/api/create/course/${id.value}/video`,'POST',
         data,(response,status)=>{
             if (status===201){
-                const name = document.getElementById('name').value
+                console.log(response)
                 const ele = document.getElementById('upload')
-                const course = document.getElementById("courseName")
-                firebaseUpload(ele,course.value,name)
+                firebaseUpload(ele,response.video)
             }
         })
     }
