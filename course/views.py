@@ -44,6 +44,10 @@ def Course_video_details(request,course_id):
 def course_list(request):
     qs = Course.objects.all()
     serial = CourseModelSerializer(qs,many=True)
+    data = serial.data
+    for i in data:
+        i['videos'] = Video.objects.filter(course=i['id']).count()
+        i['user'] = Course.objects.filter(pk=i['id']).first().user.user.username
     return Response(serial.data,status=200)
 
 

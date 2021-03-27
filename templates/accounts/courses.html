@@ -129,4 +129,31 @@
   <script src="{% static 'vendor/chart.js/dist/Chart.extension.js' %}"></script>
   <!-- Argon JS -->
   <script src="{% static 'js/argon.js' %}"></script>
+  <script>
+    const loadCourse = () => {
+          lookup("http://127.0.0.1:8000/user/enrolled",'GET',null,(response,status)=>{
+            var table = document.getElementsByTagName("table")[0];
+            var i=table.rows.length - 1
+            console.log(i)
+            while (i>2){
+              table.deleteRow(i)
+              i-=1
+            }
+            console.log(response)
+            for(i=0;i<response.length;i++){
+              var newRow = table.insertRow(table.rows.length / 2 + 1);
+              // 
+              var cel1 = newRow.insertCell(0);
+              var cel2 = newRow.insertCell(1);
+              var cel3 = newRow.insertCell(2);
+              var cel4 = newRow.insertCell(3);
+              cel1.innerHTML = response[i].name;
+              cel3.innerHTML = `<a href="#!" class="btn btn-sm btn-neutral" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false"><i class="fi-rr-doctor"></i>Add Video</a>` + createForm(response[i])
+              cel4.innerHTML = response[i].videos
+            }
+          })
+        }
+        loadCourse()
+  </script>
 {% endblock content %}

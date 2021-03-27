@@ -1,7 +1,12 @@
-from accounts.models import Profile
+from accounts.serializers import EnrollCreateSerializer, EnrollSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from accounts.models import Enroll, Profile
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from rest_framework.response import Response
+from course.models import Course
 
 
 def login_view(request):
@@ -31,7 +36,26 @@ def reg_view(request):
         return redirect('/user/login')
     return render(request,'accounts/register.html', {"form":form,"button":"Register"})
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def enrolled_courses_list(request):
+    qs = Enroll.objects.filter(user=Profile.objects.filter(user= request.user).first())
+    serial = EnrollSerializer(qs,many=True)
+    data = serial.data
+    for i in data:
+        i['prof'] = Course.objects.filter(pk=i['course']).first().user.user.username
+        i['course'] = Course.objects.filter(pk=i['course']).first().name
+    return Response(serial.data,status=200)
 
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def enroll_courses(request):
+    serial = EnrollCreateSerializer(data=request.data or None)
+    if serial.is_valid():
+        serial.save(user=Profile.objects.filter(user=request.user).first())
+        return Response(serial.data,status=200)
+    return Response({},status=400)
 
 
 def logout_view(request):

@@ -66,7 +66,7 @@
                 <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i>
                 </span>
               </div>
-              <input class="form-control" placeholder="Search Courses" type="text">
+              <input class="form-control" placeholder="Search Courses" type="text" id="search">
             </div>
           </div>
           <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main"
@@ -102,7 +102,7 @@
                   <img alt="Image placeholder" src="{% static 'img/team-4.jpg' %}">
                 </span>
                 <div class="media-body  ml-2  d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                  <span class="mb-0 text-sm  font-weight-bold">{{ user }}</span>
                 </div>
               </div>
             </a>
@@ -205,4 +205,35 @@
       <script src="{% static 'vendor/chart.js/dist/Chart.extension.js' %}"></script>
       <!-- Argon JS -->
       <script src="{% static 'js/argon.js' %}"></script>
+      <script>
+
+        const loadCourse = (str) => {
+          lookup("http://127.0.0.1:8000/api/course",'GET',null,(response,status)=>{
+            var table = document.getElementsByTagName("table")[0];
+            var i=table.rows.length - 1
+            console.log(i)
+            while (i>2){
+              table.deleteRow(i)
+              i-=1
+            }
+            for(i=0;i<response.length;i++){
+              // if ()
+              var newRow = table.insertRow(table.rows.length / 2 + 1);
+              
+              var cel1 = newRow.insertCell(0);
+              var cel2 = newRow.insertCell(1);
+              var cel3 = newRow.insertCell(2);
+              var cel4 = newRow.insertCell(3);
+              cel1.innerHTML = response[i].name
+              cel2.innerHTML = response[i].user
+              cel3.innerHTML = response[i].videos
+              cel4.innerHTML = `<button>Enroll</button>`
+            }  
+            })
+        }
+        loadCourse()
+        document.getElementById('search').addEventListener('click',(event)=>{
+          const input = event.target.value
+        })
+      </script>
 {% endblock content %}

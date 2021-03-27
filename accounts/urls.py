@@ -8,8 +8,10 @@ urlpatterns = [
     path('logout', logout_view),
     path('register', reg_view),
     path('', home_page),
-    path('dashboard', dashboard),
-    path('courses', courses),
+    path('courses', dashboard),
+    path('enrolled',enrolled_courses_list),
+    path('create/enroll',enroll_courses),
+    path('dashboard', courses),
     path('dashboardadmin', dashboardadmin),
     path('videos/<int:video_id>', video_view)
     
