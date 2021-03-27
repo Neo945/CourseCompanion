@@ -30,3 +30,6 @@ def logout_view(request):
 
 def home_page(request):
     return render(request, 'accounts/home_page.html', {})
+
+def dashboard(request):
+    return render(request, 'accounts/dashboard.html',{'name':''})
