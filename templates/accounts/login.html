@@ -11,8 +11,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <style>
-                            
+    <style>             
         .form label{
             display:none;
         }
@@ -31,48 +30,51 @@
 {% endblock stylesheets %}
 
 {% block content %}
-<div class="container register">
-    <div class="row">
-        <div class="col-md-3 register-left">
-            <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
-            <h3>Welcome</h3>
-            <p>CourseCompanion awaits you!</p>
-            <input type="submit" name="" value="Registration" id="b" /><br />
-        </div>
-        <div class="col-md-9 register-right">
-            <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
-                        aria-selected="false">Admin</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
-                        aria-controls="profile" aria-selected="true">Student</a>
-                </li>
-            </ul>
-            <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-                    <h3 class="register-heading">Login as Admin</h3>
-                    <div class="row register-form">
-                        <form method="POST" class="form col-md-6">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <div class="col-md-12">
-                                <input type="submit" class="btnRegister1" value="{{ button }}" />
-                            </div>
-                        </form>
+<div class="outerContainer col-md-12">
+
+    <div class="container register col-md-12">
+        <div class="row col-md-8">
+            <div class="col-md-3 register-left">
+                <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+                <h3>Welcome</h3>
+                <p>CourseCompanion awaits you!</p>
+                <input type="submit" name="" value="Registration" id="b" /><br />
+            </div>
+            <div class="col-md-9 register-right">
+                <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home"
+                            aria-selected="false">Admin</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
+                            aria-controls="profile" aria-selected="true">Student</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                        <h3 class="register-heading">Login as Admin</h3>
+                        <div class="row register-form">
+                            <form method="POST" class="form col-md-6">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <div class="col-md-12">
+                                    <input type="submit" class="btnRegister1" value="{{ button }}" />
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                    <h3 class="register-heading">Login as Student</h3>
-                    <div class="row register-form">
-                        <form method="POST" class="form2 col-md-6">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <div class="col-md-12">
-                                <input type="submit" class="btnRegister1" value="{{ button }}" />
-                            </div>
-                        </form>
+                    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <h3 class="register-heading">Login as Student</h3>
+                        <div class="row register-form">
+                            <form method="POST" class="form2 col-md-6">
+                                {% csrf_token %}
+                                {{ form.as_p }}
+                                <div class="col-md-12">
+                                    <input type="submit" class="btnRegister1" value="{{ button }}" />
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
