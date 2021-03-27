@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    home_page,
+    # home_page,
     course_list, pages,
     video_list,
     create_course,
@@ -10,7 +10,8 @@ from .views import (
     video_details,
     delete_video,
     delete_course,
-    form_page
+    form_page,
+    Course_video_details
     )
 
 app_name = 'course'
@@ -25,6 +26,7 @@ urlpatterns = [
     path('delete/course/<int:course_id>',delete_course),
     path('delete/video/<video_id>',delete_video),
     path('course/<int:course_id>/video/form', form_page),
-    path('/sample',home_page),
+    path('course/<int:course_id>/video/view', Course_video_details),
+    # path('/sample',home_page),
     path('',pages)
 ]

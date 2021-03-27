@@ -23,8 +23,19 @@ def form_page(request,course_id):
         return render(request=request,status=403)
     return render(request=request,status=404)
 
-def home_page(request):
-    return render(request,'Pages/video_list.html',{})
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def Course_video_details(request,course_id):
+    qs = Course.objects.filter(pk=course_id)
+    if qs.exists():
+        if qs.first().user == request.user:
+            serial = CourseModelSerializer(qs.first())
+            return render(request,'Pages/video_list.html',{"course":serial.data})
+        return render(request=request,status=403)
+    return render(request=request,status=404)
+# def home_page(request):
+#     return render(request,'Pages/form.html',{})
 
 @api_view(['GET'])
 # @permission_classes([IsAuthenticated])
@@ -51,6 +62,12 @@ def video_course_list(request,course_id):
     qs = Video.objects.filter(course=course_id)
     if qs.exists():
         serial = VideoModelSerializer(qs,many=True)
+        data = serial.data
+        for i in serial.data:
+            i['course'] = CourseModelSerializer(Course.objects.filter(pk=(i['course'])).first()).data['name']
+            k = i['course'] + '/' + i['video']
+            i['video'] = firebase_download(k)
+            print(i['video'])
         return Response(serial.data,status=200)
     return Response({"message":"course do not exist"},status=404)
 
