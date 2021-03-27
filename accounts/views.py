@@ -29,10 +29,10 @@ def reg_view(request):
     return render(request,'accounts/register.html', {"form":form,"button":"Register"})
 
 def logout_view(request):
-    if request.method == 'POST':
-        logout(request)
-        redirect('/login')
-    return render(request,'accounts/auth.html',{"form":None,"button":"Logout"})
+    # if request.method == 'POST':
+    logout(request)
+    return redirect('/user/login')
+    # return render(request,'accounts/auth.html',{})
 
 def home_page(request):
     return render(request, 'accounts/home_page.html', {})
