@@ -95,7 +95,7 @@
                       <img alt="Image placeholder" src="{% static 'img/team-4.jpg' %}">
                     </span>
                     <div class="media-body  ml-2  d-none d-lg-block">
-                      <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                      <span class="mb-0 text-sm  font-weight-bold">{{ user }}</span>
                     </div>
                   </div>
                 </a>
@@ -140,38 +140,28 @@
               <a href="#!" class="btn btn-sm btn-neutral" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false"><i class="fi-rr-doctor"></i>Create A Course</a>
               <div class="dropdown-menu dropdown-menu-lg  dropdown-menu-right ">
-                <form class="contact100-form validate-form">
-                  <!-- <span class="contact100-form-title">
-                    Create A Course
-                  </span> -->
+                <form class="contact100-form validate-form" id="course">
 
                   <div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="Course name is required">
                     <span class="label-input100">Course Name</span>
                     <input class="input" type="text" name="c" id="c">
                     <span class="focus-input100"></span>
                   </div>
-
-                  <div class="wrap-input100 rs1-wrap-input100 validate-input"
-                    data-validate="Professor name is required">
-                    <span class="label-input100">Professor Name</span>
-                    <input class="input" type="text" name="p" id="p">
-                    <span class="focus-input100"></span>
-                  </div>
-
                   <div class="wrap-input100 ">
                     <span class="label-input100">Description</span>
                     <textarea class="input100" name="message"></textarea>
                     <span class="focus-input100"></span>
                   </div>
-                </form>
-                <div class="container-contact100-form-btn">
-                  <button class="contact100-form-btn" onclick="add()">
-                    <span>
-                      Submit
-                      <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
-                    </span>
-                  </button>
-                </div>
+                  <div class="container-contact100-form-btn">
+                    <button class="contact100-form-btn" type="submit">
+                      <span>
+                        Submit
+                        <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                 </form>
+
 
               </div>
             </div>
@@ -204,8 +194,9 @@
                     <tr>
                       <th scope="col" class="sort" data-sort="name">Course</th>
 
-                      <th scope="col" class="sort" data-sort="budget">Professor</th>
+                      <th scope="col" class="sort" data-sort="budget"></th>
 
+                      <th scope="col" class="sort" data-sort="completion">Upload</th>
                       <th scope="col" class="sort" data-sort="completion">No. Of Videos</th>
                       <th></th>
                     </tr>
@@ -228,16 +219,89 @@
       <!-- Argon Scripts -->
       <!-- Core -->
       <script type="text/javascript">
-        function add() {
-          var c = document.getElementById("c").value;
-          var p = document.getElementById("p").value;
-          var table = document.getElementsByTagName("table")[0];
-          var newRow = table.insertRow(table.rows.length / 2 + 1);
-          var cel1 = newRow.insertCell(0);
-          var cel2 = newRow.insertCell(1);
-          cel1.innerHTML = c;
-          cel2.innerHTML = p;
+        
+        const loadCourse = () => {
+          lookup("http://127.0.0.1:8000/api/course/proff",'GET',null,(response,status)=>{
+            var table = document.getElementsByTagName("table")[0];
+            var i=table.rows.length - 1
+            console.log(i)
+            while (i>2){
+              table.deleteRow(i)
+              i-=1
+            }
+            for(i=0;i<response.length;i++){
+              var newRow = table.insertRow(table.rows.length / 2 + 1);
+              
+              var cel1 = newRow.insertCell(0);
+              var cel2 = newRow.insertCell(1);
+              var cel3 = newRow.insertCell(2);
+              var cel4 = newRow.insertCell(3);
+              cel1.innerHTML = response[i].name;
+              cel3.innerHTML = `<a href="#!" class="btn btn-sm btn-neutral" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false"><i class="fi-rr-doctor"></i>Add Video</a>` + createForm(response[i])
+              cel4.innerHTML = response[i].videos
+              document.getElementById(response[i].name + '_' + response[i].id).addEventListener('submit',(event)=>{
+                event.preventDefault()
+                const tar = event.target.id
+                const [course,id] = tar.split('_')
+                console.log(course,id)
+                const name = document.getElementById(id + "_c").value
+                data = {
+                    name: name,
+                    video: course + '/' + name + ".mp4"
+                }
+                // const id = document.getElementById('id')
+                lookup(`http://127.0.0.1:8000/api/create/course/${id}/video`,'POST',
+                data,(response,status)=>{
+                    if (status===201){
+                        console.log(response)
+                        const ele = document.getElementById(`${response.course}_file`)
+                        firebaseUpload(ele,response.video)
+                        loadCourse()
+                    }
+                })
+              })
+            }
+          })
         }
+        loadCourse()
+
+          const form = document.getElementById('course')
+          form.addEventListener('submit',(event)=>{
+            event.preventDefault()
+            const name = document.getElementById('c')
+            data = {name:name.value}
+            // console.log(data)
+            lookup('http://127.0.0.1:8000/api/course/create',"POST",data,(response,status)=>{
+              console.log(response,status)
+            })
+          })
+
+          const createForm = (response)=>{
+            return (`<div class="dropdown-menu dropdown-menu-lg  dropdown-menu-right ">
+                <form class="contact100-form validate-form" id="${response.name}_${response.id}">
+
+                  <div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="Course name is required">
+                    <span class="label-input100">Course Name</span>
+                    <input class="input" type="text" name="name" id="${response.id}_c">
+                    <span class="focus-input100"></span>
+                  </div>
+                  <div class="wrap-input100 ">
+                    <span class="label-input100">Description</span>
+                    <input class="input100" type="file" name="file" id="${response.id}_file">
+                    <span class="focus-input100"></span>
+                  </div>
+                  <div class="container-contact100-form-btn">
+                    <button class="contact100-form-btn" type="submit">
+                      <span>
+                        Submit
+                        <i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+                      </span>
+                    </button>
+                  </div>
+                 </form>
+              </div>`)
+          }
       </script>
       <script src="{% static 'vendor/jquery/dist/jquery.min.js' %}"></script>
       <script src="{% static 'vendor/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
@@ -250,3 +314,8 @@
       <!-- Argon JS -->
       <script src="{% static 'js/argon.js' %}"></script>
 {% endblock content%}
+
+
+
+
+

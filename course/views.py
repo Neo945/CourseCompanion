@@ -125,7 +125,9 @@ def add_video_course(request,course_id):
         if qs.exists() and qs.first().user.proff:
             data.save(course=qs.first())
             print(data.data)
-            return Response(data.data,status=201)
+            data = data.data
+            data['course'] = qs.first().id
+            return Response(data,status=201)
         return Response({"message":"course do not exist"},status=404)
     return Response({},status=400)
 
@@ -227,4 +229,8 @@ def proff_course(request):
     prof = Profile.objects.filter(user=request.user).first()
     c = Course.objects.filter(user=prof)
     serial = CourseModelSerializer(c,many=True)
-    return Response(serial.data,status=200)
+    data = serial.data
+    for i in data:
+        videos = Video.objects.filter(course__id=i['id'])
+        i['videos'] = videos.count()
+    return Response(data,status=200)

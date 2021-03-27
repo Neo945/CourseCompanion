@@ -11,6 +11,8 @@ class Course(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(Profile,on_delete=models.CASCADE)
     # playlist = models.
+    class Meta:
+        ordering = ['-id']
 
 def valid(value):
     if value not in ['reference book','refernce link','article']:
