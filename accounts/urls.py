@@ -12,6 +12,7 @@ urlpatterns = [
     path('enrolled',enrolled_courses_list),
     path('create/enroll',enroll_courses),
     path('dashboard', courses),
+    path('dashboard1', dashboard1),
     path('dashboardadmin', dashboardadmin),
     path('course/<int:course_id>/videos/<int:video_id>', video_view)
     
