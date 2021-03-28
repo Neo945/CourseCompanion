@@ -276,6 +276,7 @@
             // console.log(data)
             lookup('http://127.0.0.1:8000/api/course/create',"POST",data,(response,status)=>{
               console.log(response,status)
+              loadCourse()
             })
           })
 

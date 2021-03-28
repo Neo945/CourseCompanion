@@ -8,7 +8,6 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from rest_framework.response import Response
 from course.models import Course,Video
 
-@api_view(['GET'])
 def login_view(request):
     if request.user.is_authenticated:
         if Profile.objects.filter(user=request.user).first().proff:
@@ -26,7 +25,6 @@ def login_view(request):
             return redirect('/user/dashboard')
     return render(request,'accounts/login.html', {"form":form,"button":"Login"})
 
-@api_view(['GET'])
 def reg_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
