@@ -125,7 +125,7 @@
               var cel2 = newRow.insertCell(1);
               var cel3 = newRow.insertCell(2);
               var cel4 = newRow.insertCell(3);
-              cel1.innerHTML = response[i].course;
+              cel1.innerHTML = ` <a href="http://127.0.0.1:8000/user/course/${response[i].course_id}/videos/${response[i].video}">${response[i].course}</a>`;
               cel2.innerHTML = response[i].prof
               cel3.innerHTML = response[i].is_completed
               cel4.innerHTML = `<button>Enrolled</button>`

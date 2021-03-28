@@ -6,7 +6,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import login,logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from rest_framework.response import Response
-from course.models import Course
+from course.models import Course,Video
 
 
 def login_view(request):
@@ -44,7 +44,13 @@ def enrolled_courses_list(request):
     data = serial.data
     for i in data:
         i['prof'] = Course.objects.filter(pk=i['course']).first().user.user.username
-        i['course'] = Course.objects.filter(pk=i['course']).first().name
+        if Video.objects.filter(course=i['course']).exists():
+            i['video'] = Video.objects.filter(course=i['course']).order_by('id').first().id
+        else:
+            i['video'] = 0
+        temp = i['course']
+        i['course'] = Course.objects.filter(pk=temp).first().name
+        i['course_id'] = temp
     return Response(serial.data,status=200)
 
 
