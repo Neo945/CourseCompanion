@@ -59,7 +59,7 @@ def enrolled_courses_list(request):
 @permission_classes([IsAuthenticated])
 def enroll_courses(request):
     serial = EnrollCreateSerializer(data=request.data or None)
-    
+
     if serial.is_valid():
         if Enroll.objects.filter(course=serial.validated_data['course']).exists():
             return Response({"message":"Already exists"},status=201)

@@ -238,6 +238,7 @@
         }
         function enroll(event) {
           lookup("http://127.0.0.1:8000/user/create/enroll",'POST',{course:event.target.id},(response,status)=>{console.log(response)})
+          window.open('http://127.0.0.1:8000/user/dashboard','_self')
         }
       </script>
 {% endblock content %}
