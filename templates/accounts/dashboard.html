@@ -66,7 +66,7 @@
                 <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i>
                 </span>
               </div>
-              <input class="form-control" placeholder="Search Courses" type="text" id="search">
+              <input class="form-control" placeholder="Search Courses" type="text" id="search" onkeypress="HandleKeypress(event)">
             </div>
           </div>
           <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main"
@@ -171,7 +171,7 @@
           <div class="col">
             <div class="card bg-default shadow">
               <div class="card-header bg-transparent border-0">
-                <h3 class="text-white mb-0">My Courses</h3>
+                <h3 class="text-white mb-0">Courses</h3>
               </div>
               <div class="table-responsive">
                 <table class="table align-items-center table-dark table-flush">
@@ -181,8 +181,8 @@
 
                       <th scope="col" class="sort" data-sort="budget">Professor</th>
 
-                      <th scope="col" class="sort" data-sort="completion">No. Of Videos Seen</th>
                       <th scope="col" class="sort" data-sort="completion">Total No. Of Videos</th>
+                      <th scope="col" class="sort" data-sort="completion">Enroll</th>
                     </tr>
                   </thead>
                   <tbody class="list">
@@ -207,17 +207,16 @@
       <script src="{% static 'js/argon.js' %}"></script>
       <script>
 
-        const loadCourse = (str) => {
+      const loadCourse = (str) => {
           lookup("http://127.0.0.1:8000/api/course",'GET',null,(response,status)=>{
             var table = document.getElementsByTagName("table")[0];
             var i=table.rows.length - 1
-            console.log(i)
-            while (i>2){
+            while (i>=1){
               table.deleteRow(i)
               i-=1
             }
             for(i=0;i<response.length;i++){
-              // if ()
+              if (response[i].name.includes(str) || response[i].user.includes(str)){
               var newRow = table.insertRow(table.rows.length / 2 + 1);
               
               var cel1 = newRow.insertCell(0);
@@ -227,13 +226,18 @@
               cel1.innerHTML = response[i].name
               cel2.innerHTML = response[i].user
               cel3.innerHTML = response[i].videos
-              cel4.innerHTML = `<button>Enroll</button>`
-            }  
-            })
-        }
-        loadCourse()
-        document.getElementById('search').addEventListener('click',(event)=>{
-          const input = event.target.value
+              cel4.innerHTML = `<button id="${response[i].id}" onclick='enroll(event)'>Enroll</button>`
+            }
+            }
         })
+      }
+        loadCourse("")
+        function HandleKeypress(event){
+          const input = event.target.value
+          loadCourse(input)
+        }
+        function enroll(event) {
+          lookup("http://127.0.0.1:8000/user/create/enroll",'POST',{course:event.target.id},(response,status)=>{console.log(response)})
+        }
       </script>
 {% endblock content %}
