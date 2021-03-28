@@ -13,7 +13,7 @@ urlpatterns = [
     path('create/enroll',enroll_courses),
     path('dashboard', courses),
     path('dashboardadmin', dashboardadmin),
-    path('videos/<int:video_id>', video_view)
+    path('course/<int:course_id>/videos/<int:video_id>', video_view)
     
 ]
 

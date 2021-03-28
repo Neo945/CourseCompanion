@@ -84,34 +84,12 @@
                     
                     <th scope="col" class="sort" data-sort="budget">Professor</th>
                    
-                    <th scope="col" class="sort" data-sort="completion">Total No. Of Videos</th>
+                    <th scope="col" class="sort" data-sort="completion">Completed?</th>
                    <th scope="col" class="sort" data-sort="completion">Enroll</th>
                   
                  </tr>
                 </thead>
                 <tbody class="list">
-                  <tr>
-                    <th scope="row">
-                      <div class="media align-items-center">
-                        
-                        <div class="media-body">
-                          <span class="name mb-0 text-sm">Argon Design System</span>
-                        </div>
-                      </div>
-                    </th>
-                    <td class="budget">
-                      $2500 USD
-                    </td>
-                    <td>
-                      <span class="badge badge-dot mr-4">
-                        <i class="bg-warning"></i>
-                        <span class="status">pending</span>
-                      </span>
-                    </td>
-                    <td>
-                    <a href="/user/dashboard" class="btn btn-sm btn-neutral" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fi-rr-doctor"></i>Enroll</a>
-                    </td>               
-                  </tr>
                   
                 </tbody>
               </table>
@@ -147,10 +125,10 @@
               var cel2 = newRow.insertCell(1);
               var cel3 = newRow.insertCell(2);
               var cel4 = newRow.insertCell(3);
-              cel1.innerHTML = response[i].name;
-              cel3.innerHTML = `<a href="#!" class="btn btn-sm btn-neutral" data-toggle="dropdown" aria-haspopup="true"
-                aria-expanded="false"><i class="fi-rr-doctor"></i>Add Video</a>` + createForm(response[i])
-              cel4.innerHTML = response[i].videos
+              cel1.innerHTML = response[i].course;
+              cel2.innerHTML = response[i].prof
+              cel3.innerHTML = response[i].is_completed
+              cel4.innerHTML = `<button>Enrolled</button>`
             }
           })
         }

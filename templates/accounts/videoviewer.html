@@ -123,8 +123,8 @@
           <hr class="my-3">
 
           <div class="video-list" id="video-list">
-            <ul class="list" >
-              <li class="video-name active-list-item">
+            <ul class="list"  id="videos">
+              <!-- <li class="video-name active-list-item">
                 <a href="" class="video-link">
                   <span><i class="fa fa-file-video-o" aria-hidden="true"></i></span>
                   Video1
@@ -141,7 +141,7 @@
                   <span><i class="fa fa-file-video-o" aria-hidden="true"></i></span>
                   Video3
                 </a>
-              </li>
+              </li> -->
             </ul>
           </div>
           
@@ -176,13 +176,8 @@
                 <i class="ni ni-zoom-split-in"></i>
               </a>
             </li>
-<<<<<<< HEAD
 
 
-=======
-
-
->>>>>>> 1ea0af951a2c3f627ea23428daecf767db9b07bb
             <ul class="navbar-nav align-items-center  ml-auto ml-md-0 ">
               <li class="nav-item dropdown">
                 <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true"
@@ -192,11 +187,7 @@
                       <img alt="Image placeholder" src="{% static 'img/team-4.jpg' %}">
                     </span>
                     <div class="media-body  ml-2  d-none d-lg-block">
-<<<<<<< HEAD
                       <span class="mb-0 text-sm  font-weight-bold abc3">{{ user }}</span>
-=======
-                      <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
->>>>>>> 1ea0af951a2c3f627ea23428daecf767db9b07bb
                     </div>
                   </div>
                 </a>
@@ -227,17 +218,9 @@
         </div>
       </div>
     </nav>
-<<<<<<< HEAD
     <label class="abc" id='course'>Course Name</label><br>
     <label class="abc1" id='name'>Video Name</label><br>
     <video class="abc2" height="350" width="700" id="video" controls></video>
-=======
-    <div class="videoContainer">
-      <label class="abc">Course Name</label>
-      <label class="abc1">Video Name</label>
-      <video class="video" height="350" width="700" controls></video>
-    </div>
->>>>>>> 1ea0af951a2c3f627ea23428daecf767db9b07bb
   </div>
 
   <!-- Argon Scripts -->
@@ -256,11 +239,23 @@
 
     var str = window.location.href.split('/')
     var id = str[str.length-1]
+    var course_id = str[5]
     lookup(`http://127.0.0.1:8000/api/video/${id}`,"GET",null,(response,status)=>{
       document.getElementById('video').innerHTML = `<source src="${response.video}" type="video/mp4">`
         document.getElementById('course').innerHTML = response.course
         document.getElementById('name').innerHTML = response.name
-
+    })
+    lookup(`http://127.0.0.1:8000/api/course/${course_id}/video`,"GET",null,(response,status)=>{
+      var str = ""
+      for (i = 0;i<response.length;i++){
+      str += `<li class="video-name ` + (id==response[i].id? `active-list-item` : ``) + `">
+                <a href="http://127.0.0.1:8000/user/course/11/videos/${response[i].id}" class="video-link">
+                  <span><i class="fa fa-file-video-o" aria-hidden="true"></i></span>
+                  ${response[i].name}
+                </a>
+              </li>`
+          }
+          document.getElementById("videos").innerHTML = str
     })
   </script>
 {% endblock content %}
