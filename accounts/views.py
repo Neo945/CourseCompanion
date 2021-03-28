@@ -15,6 +15,7 @@ def login_view(request):
             return redirect('/user/dashboardadmin')
         else:
             return redirect('/user/dashboard')
+  
     form = AuthenticationForm(request,data=request.POST or None)
     if form.is_valid():
         user_ = form.get_user()
