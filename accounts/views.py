@@ -8,7 +8,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from rest_framework.response import Response
 from course.models import Course,Video
 
-
+@api_view(['GET'])
 def login_view(request):
     if request.user.is_authenticated:
         if Profile.objects.filter(user=request.user).first().proff:
@@ -26,7 +26,7 @@ def login_view(request):
             return redirect('/user/dashboard')
     return render(request,'accounts/login.html', {"form":form,"button":"Login"})
 
-
+@api_view(['GET'])
 def reg_view(request):
     form = UserCreationForm(request.POST or None)
     if form.is_valid():
@@ -67,14 +67,19 @@ def enroll_courses(request):
         return Response(serial.data,status=200)
     return Response({},status=400)
 
-
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def logout_view(request):
     logout(request)
     return redirect('/user/login')
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def home_page(request):
     return render(request, 'accounts/home_page.html', {})
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def dashboard(request):
     return render(request, 'accounts/dashboard.html',{'name':''})
 
@@ -82,6 +87,9 @@ def courses(request):
     return render(request, 'accounts/courses.html')
 
 def dashboardadmin(request):
+    if request.user.is_authenticated:
+        if not Profile.objects.filter(user=request.user).first().proff:
+            return redirect('/user/dashboard')
     return render(request, 'accounts/dashboardadmin.html',{'name':''})
 
 def video_view(request,course_id,video_id):
