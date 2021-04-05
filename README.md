@@ -1,7 +1,7 @@
 # CourseCompanion
 CourseCompanion is a course tracker that tracks a series of recorded lectures and assists students. Students usually do not have access to resources related to the session they attend. Students might also miss the session due to technical difficulties, so CourseCompanion provides this facility to students. The CourseCompanion provides functionalities such as :
-  Ability to upload recorded lectures
-  Streaming of recorded lectures
+   1)Ability to upload recorded lectures
+   2)Streaming of recorded lectures
   
 CourseComapnion consists of 4 modules -
   1) Home page/ Landing page 
